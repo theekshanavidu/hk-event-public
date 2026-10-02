@@ -9,5 +9,9 @@
   "assets": {
     "directory": "public",
     "not_found_handling": "404-page"
+  },
+  "vars": {
+    "FIREBASE_PROJECT_ID": "hkevent-522e9",
+    "FIREBASE_API_KEY": "AIzaSyBIyOSZmWlDzgGODjZik44cf-I5e3hxYT0"
   }
 }
