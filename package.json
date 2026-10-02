@@ -1,0 +1,16 @@
+{
+  "name": "hk-event-public",
+  "version": "1.0.0",
+  "description": "HK Event Management — Client & Public Website",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js"
+  },
+  "keywords": ["events", "weddings", "concerts", "sri-lanka", "hk-event"],
+  "type": "commonjs",
+  "dependencies": {
+    "dotenv": "^18.0.4",
+    "express": "^5.2.1"
+  }
+}
