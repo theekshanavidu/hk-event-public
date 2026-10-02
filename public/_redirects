@@ -1,6 +1,2 @@
-# Cloudflare Clean URL Rewrites
-/about /about.html 200
-/projects /projects.html 200
-/project /project.html 200
-/project/* /project.html 200
-/contact /contact.html 200
+# Cloudflare Redirects
+# Static pages (/about, /projects, /contact, /project) are served automatically via native clean URLs.

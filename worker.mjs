@@ -158,22 +158,16 @@ export default {
       }
     }
 
-    // 3. Clean URL Routing for Static Assets
+    // 3. Dynamic Project Routing (/project/:slug -> /project?slug=:slug)
     if (env && env.ASSETS) {
-      if (path === "/about") {
-        return env.ASSETS.fetch(new Request(new URL("/about.html", request.url), request));
-      }
-      if (path === "/projects") {
-        return env.ASSETS.fetch(new Request(new URL("/projects.html", request.url), request));
-      }
-      if (path === "/contact") {
-        return env.ASSETS.fetch(new Request(new URL("/contact.html", request.url), request));
-      }
-      if (path === "/project" || path.startsWith("/project/")) {
-        return env.ASSETS.fetch(new Request(new URL("/project.html", request.url), request));
+      if (path.startsWith("/project/")) {
+        const slug = path.replace(/^\/project\//, "");
+        const targetUrl = new URL(`/project?slug=${encodeURIComponent(slug)}`, request.url);
+        return env.ASSETS.fetch(new Request(targetUrl, request));
       }
 
-      // Serve static asset
+      // 4. Default Static Asset Serving
+      // Cloudflare Assets natively handles clean URLs (/about -> about.html, /projects -> projects.html, /contact -> contact.html)
       return env.ASSETS.fetch(request);
     }
 
