@@ -5,12 +5,17 @@
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
-    "dev": "node server.js"
+    "dev": "node server.js",
+    "deploy": "wrangler deploy",
+    "preview": "wrangler dev"
   },
   "keywords": ["events", "weddings", "concerts", "sri-lanka", "hk-event"],
   "type": "commonjs",
   "dependencies": {
     "dotenv": "^18.0.4",
     "express": "^5.2.1"
+  },
+  "devDependencies": {
+    "wrangler": "^3.114.0"
   }
 }
