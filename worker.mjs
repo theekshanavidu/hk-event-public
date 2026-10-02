@@ -18,9 +18,10 @@ function jsonResponse(data, status = 200) {
 }
 
 function cleanFirestoreDoc(doc) {
-  if (!doc || !doc.fields) return { id: doc.name?.split("/").pop() };
-  const obj = { id: doc.name.split("/").pop() };
-  for (const [k, v] of Object.entries(doc.fields)) {
+  if (!doc || !doc.fields) return { id: (doc && doc.name) ? doc.name.split("/").pop() : "" };
+  const f = doc.fields;
+  const obj = { id: (doc && doc.name) ? doc.name.split("/").pop() : "" };
+  for (const [k, v] of Object.entries(f)) {
     if (v.stringValue !== undefined) obj[k] = v.stringValue;
     else if (v.booleanValue !== undefined) obj[k] = v.booleanValue;
     else if (v.integerValue !== undefined) obj[k] = parseInt(v.integerValue, 10);
@@ -28,11 +29,21 @@ function cleanFirestoreDoc(doc) {
     else if (v.timestampValue !== undefined) obj[k] = v.timestampValue;
     else if (v.arrayValue !== undefined) {
       obj[k] = (v.arrayValue.values || []).map(item => {
-        if (item.mapValue) return cleanFirestoreDoc(item.mapValue);
-        return item.stringValue || item;
+        if (item.mapValue) {
+          const m = {};
+          for (const [mk, mv] of Object.entries(item.mapValue.fields || {})) {
+            m[mk] = mv.stringValue !== undefined ? mv.stringValue : (mv.integerValue !== undefined ? parseInt(mv.integerValue, 10) : (mv.booleanValue !== undefined ? mv.booleanValue : mv));
+          }
+          return m;
+        }
+        return item.stringValue !== undefined ? item.stringValue : item;
       });
     } else if (v.mapValue !== undefined) {
-      obj[k] = cleanFirestoreDoc(v.mapValue);
+      const m = {};
+      for (const [mk, mv] of Object.entries(v.mapValue.fields || {})) {
+        m[mk] = mv.stringValue !== undefined ? mv.stringValue : (mv.integerValue !== undefined ? parseInt(mv.integerValue, 10) : (mv.booleanValue !== undefined ? mv.booleanValue : mv));
+      }
+      obj[k] = m;
     }
   }
   return obj;
