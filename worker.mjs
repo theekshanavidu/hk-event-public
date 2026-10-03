@@ -74,6 +74,37 @@ function toFirestoreFields(obj) {
   return fields;
 }
 
+let cachedIdToken = null;
+let tokenExpiresAt = 0;
+
+async function getFirebaseAuthToken(apiKey, email, password) {
+  const now = Date.now();
+  if (cachedIdToken && now < tokenExpiresAt - 60000) {
+    return cachedIdToken;
+  }
+  try {
+    const authUrl = `https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${apiKey}`;
+    const res = await fetch(authUrl, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        email: email || "keshara@hkevent.lk",
+        password: password || "admin123",
+        returnSecureToken: true
+      })
+    });
+    if (res.ok) {
+      const data = await res.json();
+      cachedIdToken = data.idToken;
+      tokenExpiresAt = now + (parseInt(data.expiresIn, 10) * 1000);
+      return cachedIdToken;
+    }
+  } catch (e) {
+    console.error("Firebase auth error in public worker:", e);
+  }
+  return null;
+}
+
 export default {
   async fetch(request, env, ctx) {
     const url = new URL(request.url);
@@ -138,9 +169,13 @@ export default {
             createdAt: new Date().toISOString()
           };
 
+          const token = await getFirebaseAuthToken(apiKey, env && env.ADMIN_EMAIL, env && env.ADMIN_PASSWORD);
+          const headers = { "Content-Type": "application/json" };
+          if (token) headers["Authorization"] = `Bearer ${token}`;
+
           await fetch(`${firestoreBase}/inquiries?documentId=${id}&key=${apiKey}`, {
             method: "POST",
-            headers: { "Content-Type": "application/json" },
+            headers,
             body: JSON.stringify({ fields: toFirestoreFields(newInquiry) })
           });
 
