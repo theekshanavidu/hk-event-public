@@ -160,7 +160,7 @@ export default {
             name: (body.name || "").trim(),
             phone: (body.phone || "").trim(),
             email: (body.email || "").trim(),
-            type: body.type || "Weddings",
+            type: body.type || "Concerts & Musical Shows",
             date: body.date || "",
             guests: body.guests || "",
             location: (body.venue || body.location || "").trim(),

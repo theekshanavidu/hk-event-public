@@ -180,6 +180,35 @@
 
   .form-card {
     padding: 28px 20px;
+    overflow: hidden;
+  }
+
+  .form-submit-wrap {
+    width: 100%;
+    text-align: center;
+  }
+
+  .form-card button[type="submit"],
+  .btn-submit-inquiry {
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+    box-sizing: border-box !important;
+    padding: 14px 18px !important;
+    font-size: 0.95rem !important;
+    white-space: normal !important;
+    text-align: center !important;
+    justify-content: center !important;
+    gap: 8px !important;
+  }
+
+  .btn-submit-inquiry span {
+    line-height: 1.35;
+    word-break: normal;
+  }
+
+  .btn-submit-inquiry svg {
+    flex-shrink: 0;
   }
 
   /* Founder card mobile styling */
@@ -327,5 +356,14 @@
 
   .contact-whatsapp-card {
     padding: 20px 14px;
+  }
+
+  .form-card {
+    padding: 20px 14px;
+  }
+
+  .btn-submit-inquiry {
+    padding: 13px 12px !important;
+    font-size: 0.9rem !important;
   }
 }

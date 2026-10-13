@@ -116,7 +116,7 @@ function initContactForm() {
     const name = form.querySelector("[name='name']").value.trim();
     const phone = form.querySelector("[name='phone']").value.trim();
     const email = form.querySelector("[name='email']") ? form.querySelector("[name='email']").value.trim() : "";
-    const type = form.querySelector("[name='type']") ? form.querySelector("[name='type']").value : "Weddings";
+    const type = form.querySelector("[name='type']") ? form.querySelector("[name='type']").value : "Concerts & Musical Shows";
     const date = form.querySelector("[name='date']") ? form.querySelector("[name='date']").value : "";
     const guests = form.querySelector("[name='guests']") ? form.querySelector("[name='guests']").value : "";
     const location = form.querySelector("[name='location']") || form.querySelector("[name='venue']");

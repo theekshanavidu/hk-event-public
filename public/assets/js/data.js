@@ -95,9 +95,16 @@ const HKData = {
   },
 
   getFeatured() {
-    const featured = this.getAll(false).filter(p => p.featured);
-    if (featured.length > 0) return featured;
-    return this.getAll(false).slice(0, 6);
+    let featured = this.getAll(false).filter(p => p.featured);
+    if (featured.length === 0) featured = this.getAll(false).slice(0, 6);
+    // Sort so Concerts & Musical Shows appear first ahead of weddings
+    return featured.slice().sort((a, b) => {
+      const aIsConcert = (a.category || "").toLowerCase().includes("concert") || (a.category || "").toLowerCase().includes("show");
+      const bIsConcert = (b.category || "").toLowerCase().includes("concert") || (b.category || "").toLowerCase().includes("show");
+      if (aIsConcert && !bIsConcert) return -1;
+      if (!aIsConcert && bIsConcert) return 1;
+      return 0;
+    });
   },
 
   getBySlugOrId(identifier) {
@@ -137,7 +144,7 @@ const HKData = {
         name: (inquiryData.name || "").trim(),
         phone: (inquiryData.phone || "").trim(),
         email: (inquiryData.email || "").trim(),
-        type: inquiryData.type || "Weddings",
+        type: inquiryData.type || "Concerts & Musical Shows",
         date: inquiryData.date || "",
         guests: inquiryData.guests || "",
         location: (inquiryData.venue || inquiryData.location || "").trim(),

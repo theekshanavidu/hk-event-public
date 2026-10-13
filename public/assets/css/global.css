@@ -231,6 +231,37 @@ h4 { font-size: 1.25rem; }
   border-radius: var(--radius-md);
 }
 
+.btn-submit-inquiry {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  width: 100%;
+  max-width: 440px;
+  margin: 0 auto;
+  padding: 16px 28px;
+  font-size: 1.02rem;
+  font-weight: 600;
+  white-space: normal;
+  text-align: center;
+  border-radius: var(--radius-md);
+  box-sizing: border-box;
+}
+
+.btn-submit-inquiry span {
+  display: inline-block;
+  line-height: 1.35;
+}
+
+.btn-submit-inquiry svg {
+  flex-shrink: 0;
+}
+
+.form-submit-wrap {
+  text-align: center;
+  width: 100%;
+}
+
 /* Top Announcement Bar */
 .top-bar {
   background: #0d1117;

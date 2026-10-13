@@ -11,14 +11,13 @@ app.use(express.urlencoded({ extended: true }));
 
 // Serve static assets
 app.use("/assets", express.static(path.join(__dirname, "public", "assets")));
-app.use("/logo.png", express.static(path.join(__dirname, "public", "logo.png")));
-app.use("/sahan.png", express.static(path.join(__dirname, "public", "sahan.png")));
+app.use(express.static(path.join(__dirname, "public")));
 
 // ===================================================================
 // API REVERSE PROXY TO ADMIN BACKEND
 // (Forwards /api requests to the Admin API server seamlessly)
 // ===================================================================
-app.all("/api/*", async (req, res) => {
+app.all("/api/{*splat}", async (req, res) => {
   try {
     const targetUrl = `${ADMIN_API_URL}${req.originalUrl}`;
     const options = {
